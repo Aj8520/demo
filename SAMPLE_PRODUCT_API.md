@@ -2,6 +2,10 @@
 
 Base URL: `http://localhost:8010/api/v1/products`
 
+Swagger UI: `http://localhost:8010/swagger-ui.html`
+
+OpenAPI JSON: `http://localhost:8010/v3/api-docs`
+
 ## 1. Create Product
 
 ```bash

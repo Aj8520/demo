@@ -8,6 +8,8 @@ import com.example.demo.dto.response.PageResponse;
 import com.example.demo.dto.response.ProductResponse;
 import com.example.demo.enums.ProductStatus;
 import com.example.demo.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,11 +29,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(AppConstants.API_BASE_PATH + "/products")
 @RequiredArgsConstructor
+@Tag(name = "Product API", description = "CRUD and search operations for products")
 public class ProductController {
 
     private final ProductService productService;
 
     @PostMapping
+    @Operation(summary = "Create product")
     public ResponseEntity<ApiResponse<ProductResponse>> create(@Valid @RequestBody CreateProductRequest request) {
         ProductResponse data = productService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -43,6 +47,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get product by id")
     public ResponseEntity<ApiResponse<ProductResponse>> getById(@PathVariable Long id) {
         ProductResponse data = productService.getById(id);
         return ResponseEntity.ok(ApiResponse.<ProductResponse>builder()
@@ -53,6 +58,7 @@ public class ProductController {
     }
 
     @GetMapping
+    @Operation(summary = "Search products with optional filters")
     public ResponseEntity<ApiResponse<PageResponse<ProductResponse>>> search(
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) ProductStatus status,
@@ -68,6 +74,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Update product by id")
     public ResponseEntity<ApiResponse<ProductResponse>> update(
             @PathVariable Long id,
             @Valid @RequestBody UpdateProductRequest request) {
@@ -81,6 +88,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete product by id")
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
         productService.delete(id);
         return ResponseEntity.ok(ApiResponse.<Void>builder()
